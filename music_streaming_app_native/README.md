@@ -30,10 +30,21 @@ Steps:
    ```
    flutter create .
    ```
+3. Container startup (CI/Preview):
+   - Use the provided script which avoids complex bash constructs:
+     ```
+     bash scripts/start.sh
+     ```
+   - The script will:
+     - Run flutter pub get
+     - Generate missing platform folders via flutter create .
+     - Run a non-fatal flutter analyze
+     - Keep the container alive (override with KEEP_ALIVE=0)
 
 Notes:
 - The included `scripts/android-build.sh` expects a full Android setup with Gradle wrapper (`android/gradlew`) which is created by `flutter create .`.
 - For CI environments without SDKs, you can still run Dart/Flutter analyzer and unit tests if added later.
+- If your orchestrator previously used a multi-line or heredoc bash -c start command, point it to scripts/start.sh to avoid "bash: -c: line 2: syntax error: unexpected end of file".
 
 ## TODOs (Future Integration)
 - Integrate actual audio playback engine (e.g., just_audio) in `PlaybackService`
